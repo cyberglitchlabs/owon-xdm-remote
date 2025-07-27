@@ -107,6 +107,15 @@ On startup, the controller runs a three-stage initialization:
 
 Errors are indicated using LED signals (GPIO 8). A successful startup results in a retained MQTT `online` message.
 
+## Feature ideas not implemented yet
+- WiFi-Manager feat. all credentials for WiFi and MQTT
+- Web Interface to
+  - select start configuration of the multimeter
+  - select if last config is restored after power-on
+- Routing of the ESP32 USB-C to the backpanel to allow for
+  - local SCPI over USB in parallel to MQTT
+  - powering the multimeter via USB-C
+
 ## Contribution
 If you’d like to contribute to the project, you’re very welcome. The current firmware is written in MicroPython and was vibe-coded with GPT o4-mini-high. I’m open to improvements and collaboration.
 
