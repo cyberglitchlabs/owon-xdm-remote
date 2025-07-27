@@ -112,6 +112,13 @@ If you’d like to contribute to the project, you’re very welcome. The current
 ## Notes
 In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update the pictures, once I receive the V1.1 boards.
 
+## Disclaimer
+> :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
+  information provided is meant to be helpful but may contain errors or may be
+  misinterpreted. Neither myself nor any of the contributors to this project
+  provide any warranty or will assume any responsibility for any damage you
+  cause yourself or others by using this project.
+
 ---
 
 ## License
