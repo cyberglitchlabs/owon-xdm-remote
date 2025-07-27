@@ -64,20 +64,9 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
    to the ESP32:
 
    * `main.py`
-   * `secrets.py`
+   * `secrets.py` (adjust to your environment)
 
-   **`secrets.py` example**
-
-   ```python
-   WIFI_SSID = "your_wifi"
-   WIFI_PASS = "secret"
-   MQTT_BROKER = "192.168.1.10"
-   MQTT_PORT = 1883
-   MQTT_USER = "xdm"
-   MQTT_PASS = "password"
-   ```
-
-Connect and screw in the PCBA via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
+Screw in and connect the PCBA via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
 
 ## MQTT Topics
 
