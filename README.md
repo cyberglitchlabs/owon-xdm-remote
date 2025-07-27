@@ -69,6 +69,7 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
 3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
 
 ## MQTT Topics
+To communicate withe the multimeter, send a valid command to the corresponding topic xdm1041/cmd. If there is an answer to the command, it will be returned on xdm1041/resp. The command set can be found at [this OWON page](https://files.owon.com.cn/software/Application/XDM1000_Digital_Multimeter_Programming_Manual.pdf).
 
 | Topic                 | Description                      | Type      |
 | --------------------- | -------------------------------- | --------- |
