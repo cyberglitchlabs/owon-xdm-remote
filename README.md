@@ -2,6 +2,8 @@
 
 After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mode and is not saving last settings at power down, I had the idea to have an ESP32 automatically set the sampling mode to high via SCPI after starting. During the development I came up with additionally integrating the multimeter into my home automation via WiFi/MQTT. It enables reliable SCPI communication over Wi-Fi, ideal for remote measurement retrieval and automation.
 
+<img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM1041.png">
+
 ## Features
 
 * Setting custom startup configuration: sampling mode set to fast (can easily be modified and extended for measurement mode or range, etc.)
@@ -17,10 +19,10 @@ After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mo
 
 ## Hardware
 To connect the ESP32 to the multimeter via UART, the original UART module is removed and replaced by the custom PCBA provided in this repository. The PCBA is powered directly from the internal supply of the OWON XDM1041, so no external power source is required.
-### Original
+### Original UART PCBA
 <img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM%201041%20with%20original%20UART%20PCBA.png">
 
-### Modified
+### Modified Communication PCBA
 <img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM%201041%20with%20remote%20PCBA.png">
 
 The PCB is a simple two-layer design. The bottom layer is a ground plane, while the top layer is split into V_IN and 3.3 V power planes.
@@ -117,6 +119,9 @@ Errors are indicated using LED signals (GPIO 8). A successful startup results in
 
 ## Contribution
 If you’d like to contribute to the project, you’re very welcome. The current firmware is written in MicroPython and was vibe-coded with GPT o4-mini-high. I’m open to improvements and collaboration.
+
+## Notes
+In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update the pictures, once I receive the V1.1 boards.
 
 ---
 
