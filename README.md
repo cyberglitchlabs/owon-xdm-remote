@@ -6,7 +6,7 @@ After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mo
 
 ## Features
 
-* Setting custom startup configuration: sampling mode set to fast (can easily be modified and extended for measurement mode or range, etc.)
+* Setting custom startup configuration: sampling mode set to high (can easily be modified and extended for measurement mode or range, etc.)
 * MQTT integration:
 
   * Commands via `xdm1041/cmd`
