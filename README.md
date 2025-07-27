@@ -58,7 +58,7 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
 ## Installation
 
 1. **Flash MicroPython**
-   using Thonny or follow [Instructions on micropython.org](https://micropython.org/download/esp32/)
+   using Thonny or follow [instructions on micropython.org](https://micropython.org/download/ESP32_GENERIC_C3/)
 
 2. **Upload files**
    to the ESP32:
@@ -66,7 +66,7 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
    * `main.py`
    * `secrets.py` (adjust to your environment)
 
-Screw in and connect the PCBA via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
+3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
 
 ## MQTT Topics
 
@@ -116,4 +116,4 @@ In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the GNU General Public License v3.0. See the `LICENSE` file for details.
