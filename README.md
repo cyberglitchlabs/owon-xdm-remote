@@ -136,6 +136,7 @@ In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update
 
 ---
 
-## License
+## License & Credits
 
 This project is licensed under the GNU General Public License v3.0. See the `LICENSE` file for details.
+Many thanks go to Igor Ferreira for the code for [WiFi Manager](https://github.com/ferreira-igor/micropython-wifi_manager?tab=readme-ov-file)
