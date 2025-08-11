@@ -68,6 +68,7 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
 3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
 
 4. **Enter your WiFi and MQTT Credentials** in the opening WiFi Access Point named `OWON-XDM-Remote-Setup`and hit `Save & Connect`
+   
    <img width="600" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/WiFi%20Manager.png?raw=true">
 
 The ESP32 reboots and connects to your WiFi and MQTT Broker.
@@ -139,4 +140,5 @@ In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update
 ## License & Credits
 
 This project is licensed under the GNU General Public License v3.0. See the `LICENSE` file for details.
+
 Many thanks go to Igor Ferreira for the code for [WiFi Manager](https://github.com/ferreira-igor/micropython-wifi_manager?tab=readme-ov-file)
