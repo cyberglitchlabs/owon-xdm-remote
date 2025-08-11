@@ -8,14 +8,13 @@ After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mo
 
 * Setting custom startup configuration: sampling mode set to high (can easily be modified and extended for measurement mode or range, etc.)
 * MQTT integration:
-
   * Commands via `xdm1041/cmd`
   * Responses via `xdm1041/resp`
   * Device status via `xdm1041/status` (retained)
   * Wi-Fi quality via `xdm1041/wifiquality`
   * Heartbeat via `xdm1041/heartbeat`
 * LED feedback: startup states and errors indicated by onboard LED
-* Separation of sensitive data via `secrets.py`
+* WiFi Manager feat. WiFi and MQTT credentials
 
 ## Hardware
 To connect the ESP32 to the multimeter via UART, the original UART module is removed and replaced by the custom PCBA provided in this repository. The PCBA is powered directly from the internal supply of the OWON XDM1041, so no external power source is required.
@@ -23,7 +22,7 @@ To connect the ESP32 to the multimeter via UART, the original UART module is rem
 <img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM%201041%20with%20original%20UART%20PCBA.png">
 
 ### Modified Communication PCBA
-<img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM%201041%20with%20remote%20PCBA.png">
+<img width="400" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/OWON%20XDM%201041%20with%20remote%20PCBA.png?raw=true">
 
 The PCB is a simple two-layer design. The bottom layer is a ground plane, while the top layer is split into V_IN and 3.3 V power planes.
 
@@ -68,6 +67,11 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
 
 3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
 
+4. **Enter your WiFi and MQTT Credentials** in the opening WiFi Access Point named `OWON-XDM-Remote-Setup`and hit `Save & Connect`
+   <img width="600" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/WiFi%20Manager.png?raw=true">
+
+The ESP32 reboots and connects to your WiFi and MQTT Broker.
+
 ## MQTT Topics
 To communicate with the multimeter over MQTT, send a valid command to the corresponding topic `xdm1041/cmd`. If there is an answer to the command, it will be returned on `xdm1041/resp`. The command set can be found at [this OWON page](https://files.owon.com.cn/software/Application/XDM1000_Digital_Multimeter_Programming_Manual.pdf).
 
@@ -101,14 +105,15 @@ If you just like to have your custom parameters set at startup of the multimeter
 
 On startup, the controller runs a three-stage initialization:
 
-1. Check for UART line idle timeout
-2. Identify device via `*IDN?`
-3. Enable and verify fast-sampling mode (`RATE F`, `RATE?`)
+1. Check for valid credentials in file system - if not valid or empty
+2. Start WiFi Manager and enter WiFi and MQTT credentials
+3. Check for UART line idle timeout
+4. Identify device via `*IDN?`
+5. Enable and verify fast-sampling mode (`RATE F`, `RATE?`)
 
 Errors are indicated using LED signals (GPIO 8). A successful startup results in a retained MQTT `online` message.
 
 ## Feature ideas not implemented yet
-- WiFi-Manager feat. all credentials for WiFi and MQTT
 - Web Interface to
   - select start configuration of the multimeter
   - select if last config is restored after power-on
