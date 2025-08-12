@@ -7,6 +7,7 @@ After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mo
 ## Features
 
 * Setting custom startup configuration: sampling mode set to high (can easily be modified and extended for measurement mode or range, etc.)
+* WiFi Manager feat. WiFi and MQTT credentials
 * MQTT integration:
   * Commands via `xdm1041/cmd`
   * Responses via `xdm1041/resp`
@@ -14,7 +15,6 @@ After I was a bit annoyed by the fact that the XDM1041 starts in low sampling mo
   * Wi-Fi quality via `xdm1041/wifiquality`
   * Heartbeat via `xdm1041/heartbeat`
 * LED feedback: startup states and errors indicated by onboard LED
-* WiFi Manager feat. WiFi and MQTT credentials
 
 ## Hardware
 To connect the ESP32 to the multimeter via UART, the original UART module is removed and replaced by the custom PCBA provided in this repository. The PCBA is powered directly from the internal supply of the OWON XDM1041, so no external power source is required.
@@ -63,15 +63,15 @@ The hard- and software is tested on a XDM1041 and might be compatible to further
    to the ESP32:
 
    * `main.py`
-   * `secrets.py` (adjust to your environment)
+   * `wifi_manager.py`
 
-3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter. The ESP connects to Wi-Fi and MQTT, initializes the multimeter, and starts processing commands.
+3. **Screw in and connect the PCBA** via the JST cable and power up the XDM multimeter
 
 4. **Enter your WiFi and MQTT Credentials** in the opening WiFi Access Point named `OWON-XDM-Remote-Setup`and hit `Save & Connect`
    
    <img width="600" alt="image" src="https://github.com/Elektroarzt/owon-xdm-remote/blob/main/assets/WiFi%20Manager.png?raw=true">
 
-The ESP32 reboots and connects to your WiFi and MQTT Broker.
+The ESP32 reboots and connects to your WiFi and MQTT Broker, initializes the multimeter, and starts processing commands.
 
 ## MQTT Topics
 To communicate with the multimeter over MQTT, send a valid command to the corresponding topic `xdm1041/cmd`. If there is an answer to the command, it will be returned on `xdm1041/resp`. The command set can be found at [this OWON page](https://files.owon.com.cn/software/Application/XDM1000_Digital_Multimeter_Programming_Manual.pdf).
@@ -100,13 +100,13 @@ Expected response on `xdm1041/resp`:
 5.123456E-03
 ```
 
-If you just like to have your custom parameters set at startup of the multimeter, just don't use the WiFi / MQTT part.
+If you just like to have your custom parameters set at startup of the multimeter, simply don't use the WiFi / MQTT part.
 
 ## Startup Behavior
 
 On startup, the controller runs a three-stage initialization:
 
-1. Check for valid credentials in file system - if not valid or empty
+1. Check for valid network credentials in file system - if not valid or empty
 2. Start WiFi Manager and enter WiFi and MQTT credentials
 3. Check for UART line idle timeout
 4. Identify device via `*IDN?`
@@ -124,9 +124,6 @@ Errors are indicated using LED signals (GPIO 8). A successful startup results in
 
 ## Contribution
 If you’d like to contribute to the project, you’re very welcome. The current firmware is written in MicroPython and was vibe-coded with GPT o4-mini-high. I’m open to improvements and collaboration.
-
-## Notes
-In some pictures you see V1.0 PCB. All changes to V1.1 are tested. I will update the pictures, once I receive the V1.1 boards.
 
 ## Disclaimer
 > :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
