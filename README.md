@@ -123,7 +123,7 @@ Errors are indicated using LED signals (GPIO 8). A successful startup results in
   - powering the multimeter via USB-C
 
 ## Contribution
-If you’d like to contribute to the project, you’re very welcome. The current firmware is written in MicroPython and was vibe-coded with GPT o4-mini-high. I’m open to improvements and collaboration.
+If you’d like to contribute to the project, you’re very welcome. The current firmware is written in MicroPython and was vibe-coded with GPT-5 Thinking. I’m open to improvements and collaboration.
 
 ## Disclaimer
 > :warning: **WARNING**: You may only **USE THIS PROJECT AT YOUR OWN RISK**. The
