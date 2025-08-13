@@ -104,7 +104,7 @@ If you just like to have your custom parameters set at startup of the multimeter
 
 ## Startup Behavior
 
-On startup, the controller runs a three-stage initialization:
+On startup, the controller runs the following initialization:
 
 1. Check for valid network credentials in file system - if not valid or empty
 2. Start WiFi Manager and enter WiFi and MQTT credentials
