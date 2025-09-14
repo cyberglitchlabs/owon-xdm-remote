@@ -1,0 +1,153 @@
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+  reboot_timeout: 0s  # Prevent reboot on API connection loss
+
+# Optional: Enable MQTT as well
+mqtt:
+  broker: !secret mqtt_broker
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  
+# WiFi configuration
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  
+  # Enable fallback hotspot if WiFi connection fails
+  ap:
+    ssid: "DMM-Fallback"
+    password: !secret fallback_password
+
+# UART configuration for DMM
+uart:
+  tx_pin: GPIO21
+  rx_pin: GPIO20
+  baud_rate: 115200
+  id: uart_bus
+
+# SCPI DMM Component
+external_components:
+  - source: components
+    components: [ scpi_dmm ]
+
+# DMM Configuration
+scpi_dmm:
+  uart_id: uart_bus
+  device_type: owon_xdm  # Specify device type for correct command set
+  fast_mode: true  # Enable fast sampling mode on startup
+  
+  # Main value sensor (auto-updates unit based on function)
+  value:
+    name: "DMM Value"
+    id: dmm_value
+    accuracy_decimals: 6
+    state_class: measurement
+    entity_category: diagnostic
+    
+  # Secondary value (e.g., frequency in AC modes)
+  secondary_value:
+    name: "DMM Secondary"
+    id: dmm_secondary
+    accuracy_decimals: 3
+    state_class: measurement
+    entity_category: diagnostic
+    
+  # Status sensors
+  function:
+    name: "DMM Function"
+    id: dmm_function
+    entity_category: diagnostic
+  range:
+    name: "DMM Range"
+    id: dmm_range
+    entity_category: diagnostic
+  status:
+    name: "DMM Status"
+    id: dmm_status
+    entity_category: diagnostic
+  idn:
+    name: "Device ID"
+    id: dmm_idn
+    entity_category: diagnostic
+    
+  # Control components
+  function_select:
+    name: "DMM Function Select"
+    id: dmm_function_select
+    icon: mdi:multimeter
+    options:
+      - "DC Voltage"
+      - "AC Voltage"
+      - "DC Current"
+      - "AC Current"
+      - "Resistance"
+      - "Capacitance"
+      - "Continuity"
+      - "Diode"
+    
+  range_select:
+    name: "DMM Range Mode"
+    id: dmm_range_select
+    icon: mdi:tune
+    options:
+      - "Auto"
+      - "Manual"
+    
+  rate_select:
+    name: "DMM Sample Rate"
+    id: dmm_rate_select
+    icon: mdi:speedometer
+    options:
+      - "Normal"
+      - "Fast"
+    
+  buttons:
+    - platform: template
+      name: "DMM Reset"
+      id: dmm_reset
+      icon: mdi:restart
+      on_press:
+        - lambda: 'id(dmm_device)->reset();'
+    
+    - platform: template
+      name: "DMM Zero"
+      id: dmm_zero
+      icon: mdi:numeric-0
+      on_press:
+        - lambda: 'id(dmm_device)->relative_zero();'
+
+# Example Home Assistant service calls
+# These will be available in Home Assistant as:
+# - esphome.dmm_reset
+# - esphome.dmm_relative_zero
+# - esphome.dmm_set_function
+# - esphome.dmm_set_range
+# - esphome.dmm_set_rate
+
+# Example automations
+automation:
+  - trigger:
+      platform: state
+      entity_id: select.dmm_function_select
+    action:
+      - logger.info: 
+          format: "DMM function changed to %s"
+          args: ["{{ trigger.to_state.state }}"]
+          
+  - trigger:
+      platform: state
+      entity_id: sensor.dmm_value
+    condition:
+      - condition: template
+        value_template: "{{ trigger.to_state.state | float > 10.0 }}"
+    action:
+      - persistent_notification.create:
+          title: "High DMM Reading"
+          message: "DMM value is {{ trigger.to_state.state }}"
+
+# Status LED
+status_led:
+  pin: GPIO8
+  inverted: true

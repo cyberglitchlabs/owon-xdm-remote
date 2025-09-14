@@ -1,0 +1,102 @@
+esphome:
+  name: owon-xdm
+  friendly_name: "OWON XDM1041"
+  platform: ESP32
+  board: esp32-c3-devkitm-1
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "your-ota-password"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) if WiFi connection fails
+  ap:
+    ssid: "OWON-XDM-Remote-Setup"
+    password: ""
+
+mqtt:
+  broker: !secret mqtt_broker
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  
+# UART configuration for XDM1041
+uart:
+  tx_pin: GPIO21
+  rx_pin: GPIO20
+  baud_rate: 115200
+  id: uart_bus
+
+# Status LED
+output:
+  - platform: gpio
+    pin: GPIO8
+    id: status_led
+    inverted: true
+
+light:
+  - platform: binary
+    output: status_led
+    name: "Status LED"
+
+# SCPI DMM Component
+external_components:
+  - source: components
+    components: [ scpi_dmm ]
+
+# DMM Configuration
+scpi_dmm:
+  uart_id: uart_bus
+  # Optional: specify device type, defaults to "auto"
+  device_type: auto  # Will detect from IDN response
+  # Alternative device types:
+  # device_type: owon_xdm
+  # device_type: keysight_34460a
+  # device_type: rigol_dm3068
+  # device_type: fluke_8845a
+  # device_type: generic_scpi
+  
+  # Sensors will be created automatically
+  value:
+    name: "Multimeter Value"
+    id: dmm_value
+    unit_of_measurement: "V"
+    accuracy_decimals: 6
+  function:
+    name: "Measurement Function"
+    id: dmm_function
+  idn:
+    name: "Device Identification"
+    id: dmm_idn
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    update_interval: 60s
+    
+button:
+  - platform: template
+    name: "Reset XDM1041"
+    on_press:
+      - uart.write: "*RST\r\n"
+      
+  - platform: template
+    name: "IDN Query"
+    on_press:
+      - uart.write: "*IDN?\r\n"
+
+# Custom MQTT commands
+mqtt:
+  on_message:
+    topic: xdm1041/cmd
+    then:
+      - uart.write:
+          format: "%s\r\n"
+          args: [ 'payload' ]
